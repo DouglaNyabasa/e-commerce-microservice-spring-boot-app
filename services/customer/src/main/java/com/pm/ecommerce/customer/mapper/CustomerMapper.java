@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
 @Service
+
 public class CustomerMapper {
     public Customer toCustomer(@Valid CustomerRequest request) {
         if (request == null) {
@@ -20,6 +21,7 @@ public class CustomerMapper {
                 .email(request.email())
                 .address(request.address())
                 .build();
+
     }
 
     public CustomerResponse fromCustomer(Customer customer) {
