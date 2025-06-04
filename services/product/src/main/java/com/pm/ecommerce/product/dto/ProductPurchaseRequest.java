@@ -1,4 +1,12 @@
 package com.pm.ecommerce.product.dto;
 
-public record ProductPurchaseRequest() {
+import jakarta.validation.constraints.NotNull;
+
+public record ProductPurchaseRequest(
+
+        @NotNull(message = "Product is mandatory")
+        Integer productId,
+        @NotNull(message = "Quantity not null")
+        double quantity
+) {
 }
