@@ -18,10 +18,10 @@ public class ProductClient {
     private String productUrl;
 
     private final RestTemplate restTemplate;
-
-    public List<PurchaseResponse> purchaseProducts(List<PurchaseRequest> requestsBody){
-        HttpHeaders headers = new HttpHeaders();
-        headers.set(HttpHeaders.CONTENT_TYPE, "application/json");
-
-    }
+//
+//    public List<PurchaseResponse> purchaseProducts(List<PurchaseRequest> requestsBody){
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.set(HttpHeaders.CONTENT_TYPE, "application/json");
+//
+//    }
 }
