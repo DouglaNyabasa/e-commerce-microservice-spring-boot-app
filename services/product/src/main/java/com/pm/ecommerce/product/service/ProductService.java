@@ -4,6 +4,7 @@ package com.pm.ecommerce.product.service;
 import com.pm.ecommerce.product.dto.ProductPurchaseRequest;
 import com.pm.ecommerce.product.dto.ProductPurchaseResponse;
 import com.pm.ecommerce.product.dto.ProductRequest;
+import com.pm.ecommerce.product.dto.ProductResponse;
 import com.pm.ecommerce.product.exceptionHandling.ProductPurchaseException;
 import com.pm.ecommerce.product.mapper.ProductMapper;
 import com.pm.ecommerce.product.repository.ProductRepository;
@@ -61,13 +62,13 @@ public class ProductService {
 
     }
 
-    public ProductPurchaseResponse findProductById(Integer productId) {
+    public ProductResponse findProductById(Integer productId) {
         return productRepository.findById(productId)
                 .map(productMapper::toProductResponse)
                 .orElseThrow(()-> new EntityNotFoundException("Product not found with ID :"+ productId));
     }
 
-    public List<ProductPurchaseResponse> findAllProducts() {
+    public List<ProductResponse> findAllProducts() {
         return productRepository.findAll()
                 .stream()
                 .map(productMapper:: toProductResponse)
