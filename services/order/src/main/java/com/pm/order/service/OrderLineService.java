@@ -18,8 +18,10 @@ public class OrderLineService {
         this.orderLineMapper = orderLineMapper;
     }
 
-//    public void saveOrderLine(OrderLineRequest request) {
-//        var order = orderLineMapper.toOrderLine(request);
-//        return orderLineRepository.save(order).getId();
-//    }
+    public Integer saveOrderLine(OrderLineRequest request) {
+        var order = orderLineMapper.toOrderLine(request);
+        return orderLineRepository.save(order).getId();
+    }
+
+
 }

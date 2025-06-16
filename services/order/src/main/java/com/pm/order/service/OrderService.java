@@ -1,9 +1,11 @@
 package com.pm.order.service;
 
 import com.pm.order.customer.CustomerClient;
+import com.pm.order.dto.OrderConfirmation;
 import com.pm.order.dto.OrderRequest;
 import com.pm.order.dto.PurchaseRequest;
 import com.pm.order.exception.BusinessException;
+import com.pm.order.kafka.OrderProducer;
 import com.pm.order.mapper.OrderMapper;
 import com.pm.order.model.OrderLine;
 import com.pm.order.dto.OrderLineRequest;
@@ -20,20 +22,22 @@ public class OrderService {
     private final OrderMapper mapper;
     private final ProductClient productClient;
     private final OrderLineService orderLineService;
+    private final OrderProducer orderProducer;
 
-    public OrderService(CustomerClient customerClient, OrderRepository orderRepository, OrderMapper mapper, ProductClient productClient, OrderLineService orderLineService) {
+    public OrderService(CustomerClient customerClient, OrderRepository orderRepository, OrderMapper mapper, ProductClient productClient, OrderLineService orderLineService, OrderProducer orderProducer) {
         this.customerClient = customerClient;
         this.orderRepository = orderRepository;
         this.mapper = mapper;
         this.productClient = productClient;
         this.orderLineService = orderLineService;
+        this.orderProducer = orderProducer;
     }
 
     public Integer createOrder(@Valid OrderRequest request) {
 
         var customer = this.customerClient.findCustomerById(request.customerId())
                 .orElseThrow(()-> new BusinessException("Cannot create order ::No Customer does not exists with the provided ID"));
-        this.productClient.purchaseProducts(request.products());
+        var purchasedProducts = this.productClient.purchaseProducts(request.products());
 
         var order = this.orderRepository.save(mapper.toOrder(request));
 
@@ -47,8 +51,17 @@ public class OrderService {
                   )
           );
         }
+        orderProducer.sendOrderConfirmation(
+                new OrderConfirmation(
+                        request.reference(),
+                        request.amount(),
+                        request.paymentMethod(),
+                        customer,
+                        purchasedProducts
+                )
+        );
 
 
-        return null;
+        return order.getId();
     }
 }
