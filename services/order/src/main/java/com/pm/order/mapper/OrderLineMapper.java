@@ -1,6 +1,7 @@
 package com.pm.order.mapper;
 
 import com.pm.order.dto.OrderLineRequest;
+import com.pm.order.dto.OrderLineResponse;
 import com.pm.order.model.Order;
 import com.pm.order.model.OrderLine;
 import org.springframework.stereotype.Service;
@@ -18,4 +19,12 @@ public class OrderLineMapper {
                 )
                 .quantity(request.quantity())
                 .build();
-    }}
+    }
+
+    public OrderLineResponse toOrderLineResponse(OrderLine orderLine) {
+        return new OrderLineResponse(
+                orderLine.getId(),
+                orderLine.getQuantity()
+        );
+    }
+}

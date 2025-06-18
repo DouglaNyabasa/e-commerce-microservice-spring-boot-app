@@ -1,10 +1,14 @@
 package com.pm.order.service;
 
 import com.pm.order.dto.OrderLineRequest;
+import com.pm.order.dto.OrderLineResponse;
 import com.pm.order.mapper.OrderLineMapper;
 import com.pm.order.repository.OrderLineRepository;
 
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 
@@ -24,4 +28,10 @@ public class OrderLineService {
     }
 
 
+    public List<OrderLineResponse> findAllByOrderId(Integer orderId) {
+        return orderLineRepository.findAllByOrderId(orderId)
+                .stream()
+                .map(orderLineMapper::toOrderLineResponse)
+                .collect(Collectors.toList());
+    }
 }
