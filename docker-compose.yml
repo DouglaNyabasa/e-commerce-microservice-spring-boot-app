@@ -1,4 +1,4 @@
-version: '3.8'  # Specify the version of Docker Compose
+version: '3.8'
 
 services:
   postgres:
@@ -27,7 +27,7 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=ADMIN
       - MONGO_INITDB_ROOT_PASSWORD=ADMIN
     networks:
-      - microservice-net  # Ensure it's on the same network
+      - microservice-net
 
 
 
@@ -81,7 +81,7 @@ services:
       - "1080:1080"
       - "1025:1025"
     networks:
-      - microservice-net  # Ensure it's on the same network
+      - microservice-net
 
 networks:
   microservice-net:
